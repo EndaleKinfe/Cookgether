@@ -1,11 +1,12 @@
 import GuestNavbar from "../componets/GuestNavbar";
-import SignupCard from "../componets/SignupCard";
+import LoginCard from "../componets/LoginCard";
 
 const SignupPage = () => {
     return ( <>
         <GuestNavbar ishome={false}/>
-        <SignupCard/>
-    </> );
+        <LoginCard/>
+        </>
+    );
 }
  
 export default SignupPage;
