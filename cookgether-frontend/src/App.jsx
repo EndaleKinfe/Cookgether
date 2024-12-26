@@ -3,14 +3,19 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import './componets/SignupCard'
 import SignupCard from './componets/SignupCard'
+import './index.css';
+import { BrowserRouter, Route, Routes } from 'react-router'
 
 function App() {
 
   return (
-    <>
-     <h1>Cookgether is the best</h1>
-     <SignupCard/>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<SignupCard />} />
+        <Route path="/signup" element={<SignupCard />} />
+      </Routes>
+     
+    </BrowserRouter>
   )
 }
 
