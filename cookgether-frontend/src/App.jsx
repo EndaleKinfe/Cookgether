@@ -5,7 +5,7 @@ import './componets/SignupCard'
 import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router'
 import SignupPage from './Pages/SignUppage'
-import LoginCard from './componets/LoginCard'
+import LoginPage from './Pages/LoginPage'
 import GuestNavbar from './componets/GuestNavbar';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<GuestNavbar ishome={true} />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginCard />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path='/forgotpassword' />
       </Routes>
      
