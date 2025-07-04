@@ -1,0 +1,3 @@
+[submodule "cookapi-repo"]
+	path = cookapi-repo
+	url = https://github.com/EndaleKinfe/cookapi.git
