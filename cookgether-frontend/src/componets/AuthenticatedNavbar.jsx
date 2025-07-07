@@ -81,7 +81,7 @@ const AuthencticatedNavbar = ({ishome=true}) => {
         <ul className={hidden ? "hidden":"flex flex-col absolute top-[3.5rem] right-10  py-4 rounded-md bg-black  w-56 items-center justify-center "}>
                     <li className="text-white">Account</li>
                     <li className="text-white">Setting</li>
-                    <li className="text-white">Add Post</li>
+                    <Link to="/add"><li className="text-white">Add Post</li></Link>
                     <li className="text-white" onClick={handleLogout}>Logout</li>
         </ul>
     </nav>

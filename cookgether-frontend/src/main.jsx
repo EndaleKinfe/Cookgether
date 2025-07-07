@@ -16,6 +16,7 @@ import CreatorSuggestionPage from './Pages/CreatorSuggestionPage.jsx'
 import InterestSelectionPage from './Pages/InterestSelectionPage.jsx'
 import HomeFeed from './Pages/HomeFeed.jsx'
 import PostPage from './Pages/PostPage.jsx'
+import PostCreate from './Pages/PostCreate.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')).render(
             <Route index element={<HomeFeed/>} />
             <Route path='message' element={<MessagePage/>} />
             <Route path='post/:id' element={<PostPage/>} />
+            <Route path='add' element={<PostCreate/>}/>
           </Route>
           <Route path='/welcome' element={<AuthenticatedNew/>}>
               <Route index element={<BasicInfoPage/>}/>

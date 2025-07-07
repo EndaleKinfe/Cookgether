@@ -14,9 +14,11 @@ const Post = ({post}) => {
             </div>
             <button className="bg-yellow-400 col-span-1 w-24 h-6  mr-24 text-black rounded-md">+ follow</button>
         </div>
+        { post.images.length > 0 &&
         <div className="w-5/6 md:w-96 lg:w-[30rem] h-80 object-cover ">
             <img src={post.images[0].imageUrl} className="object-cover w-5/6 md:w-96 lg:w-[30rem] h-80"  alt="picture of food" />
         </div>
+        }
         <div className="p-4">
             <h3 className="text-xl">{post.title}</h3>
             <p className="text-sm">{post.description}</p>
