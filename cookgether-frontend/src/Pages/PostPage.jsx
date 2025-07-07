@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import axiosClient from "../axios-client";
 import CommentCard from "../componets/CommentCard";
-import { useParams } from "react-router";
+import { Navigate, useBeforeUnload, useNavigate, useParams } from "react-router";
 import { useStateContext } from "../Context/ContextProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faCommentDots,  faPaperPlane, faShareSquare, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import {  faCommentDots,  faDotCircle,  faPaperPlane, faShareSquare, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 
 
 
 const PostPage = () => {
     const {id} = useParams();
+    const [hidden, setHidden] = useState(true);
     const [postDetail, setPostDetails] = useState(null);
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const {user} = useStateContext();
+    const navigate = useNavigate();
     const newcomment = useRef();
 
     useEffect(()=>{
@@ -53,9 +55,50 @@ const PostPage = () => {
         }) 
 
     }
+    function handledelete(){
+        axiosClient.delete(`/posts/${postDetail.id}`).then(()=>{
+            console.log("hi im deleted");
+            navigate("/");
+        })
+    }
+
+    function handlelike(){
+        const payload = {
+            user_id: user.id,
+            likable_id :  postDetail.id,
+            likable_type: "App\\Models\\Post"
+        };
+        
+        axiosClient.post("/likes", payload)
+    }
+
+    
+    const handleshare = async (params) => {
+        
+    
+        const payload = {
+            user_id: user.id,
+            sharable_id :  postDetail.id,
+            sharable_type: "App\\Models\\Post"
+        };
+       
+         await   navigator.clipboard.writeText(`localhost:5173/post/${postDetail.id}`)
+        
+        axiosClient.post("/shares", payload)
+    }
+     function handleAccountHover(){
+        let a = false;
+        if(hidden){
+            a = false;
+        }
+        else{
+            a = true;
+        }
+        setHidden(a);
+    }
    
     return (
-    <div className="flex flex-col items-center justify-center my-4">
+    <div className="flex flex-col items-center justify-center my-5">
         
         {postDetail && <div className="w-5/6 md:w-96 lg:w-[30rem] bg-white  rounded-lg overflow-hidden">
             <div className="w-full p-4 bg-white grid items-center justify-center grid-cols-6">
@@ -65,10 +108,22 @@ const PostPage = () => {
                     <p className="text-slate-700 text-xs">{postDetail.createdAt}</p>
                 </div>
                 <button className="bg-yellow-400 col-span-1 w-24 h-6  mr-24 text-black rounded-md">+ follow</button>
+                <button onClick={handleAccountHover} className="col-span-1">...</button>
+                <ul className={hidden ? "hidden":"flex flex-col absolute top-[9rem] right-72  py-4 rounded-md bg-black  w-56 items-center justify-center "}>
+                    {
+                        postDetail.user.id == user.id ?<>
+                    <li className="text-white" ><button onClick={handledelete}>Delete</button></li>
+                    <li className="text-white">Edit</li>
+                    </>:
+                    <li className="text-white">Report</li>
+                }
+        </ul>
             </div>
+            { postDetail.images.length > 0 &&
             <div className="w-5/6 md:w-96 lg:w-[30rem] h-80 object-cover ">
                 <img src={postDetail.images[0].imageUrl} className="object-cover w-5/6 md:w-96 lg:w-[30rem] h-80"  alt="picture of food" />
             </div>
+            }
             <div className="p-4">
                 <h3 className="text-xl">{postDetail.title}</h3>
                 <p className="text-sm">{postDetail.description}</p>
@@ -94,7 +149,7 @@ const PostPage = () => {
                 </ul>
             </div>
             <div className="w-full grid grid-cols-3 my-3 border-t-2 border-t-yellow-600 border-solid p-2">
-                <div className="flex gap-2 place-self-center">
+                <div onClick={handlelike} className="flex gap-2 place-self-center">
                     <FontAwesomeIcon icon={faThumbsUp} size="lg" />
                     <p>{postDetail.likeCount} likes</p>
                 </div>
@@ -102,7 +157,7 @@ const PostPage = () => {
                     <FontAwesomeIcon icon={faCommentDots} size="lg"/>
                     <p>{postDetail.commentCount} comment</p>
                 </div>
-                <div className="flex gap-2 place-self-center">
+                <div onClick={handleshare} className="flex gap-2 place-self-center">
                     <FontAwesomeIcon icon={faShareSquare} size="lg"/>
                     <p>{postDetail.shareCount} shares</p>
                 </div>
